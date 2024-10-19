@@ -45,7 +45,9 @@ const Sidebar = () => {
                 className={`${isFilterExpanded ? 'opacity-100' : 'opacity-0'} transition-all space-y-4`}
             >
                 <div
+                    role="button"
                     className={`${expandedFilter === 'category' ? 'max-h-[800px]' : 'max-h-[52px]'} bg-background-default p-4 rounded-xl space-y-3 transition-all overflow-hidden`}
+                    onClick={() => handelFilterExpansion('category')}
                 >
                     <div className="flex items-center justify-between font-semibold text-primary-default">
                         <h3>By Category</h3>
@@ -53,7 +55,6 @@ const Sidebar = () => {
                             role="button"
                             src={arrowIcon}
                             className={`w-5 h-5 transition-all ${expandedFilter === 'category' && 'rotate-180'}`}
-                            onClick={() => handelFilterExpansion('category')}
                         />
                     </div>
                     <div className="space-y-2">
@@ -84,7 +85,9 @@ const Sidebar = () => {
 
                 {/*Language Filter Div*/}
                 <div
+                    role="button"
                     className={`${expandedFilter === 'language' ? 'max-h-[800px]' : 'max-h-[52px]'} bg-background-default p-4 rounded-xl space-y-3 transition-all overflow-hidden`}
+                    onClick={() => handelFilterExpansion('language')}
                 >
                     <div className="flex items-center justify-between font-semibold text-primary-default">
                         <h3>By Language</h3>
@@ -92,7 +95,6 @@ const Sidebar = () => {
                             role="button"
                             src={arrowIcon}
                             className={`w-5 h-5 transition-all ${expandedFilter === 'language' && 'rotate-180'}`}
-                            onClick={() => handelFilterExpansion('language')}
                         />
                     </div>
                     <div className="space-y-2">

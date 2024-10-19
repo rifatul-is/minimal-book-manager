@@ -10,7 +10,9 @@ export default {
                     default: COLOR_PALATTE.primary.default
                 },
                 secondary: {
-                    default: COLOR_PALATTE.secondary.default
+                    default: COLOR_PALATTE.secondary.default,
+                    dark: COLOR_PALATTE.secondary.dark,
+                    light: COLOR_PALATTE.secondary.light
                 },
                 background: {
                     default: COLOR_PALATTE.background.default

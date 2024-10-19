@@ -8,10 +8,10 @@ const Layout = () => {
         <div>
             <Navbar />
             <div className="flex pt-6">
-                <div className="w-64 overflow-hidden">
+                <div className="w-[300px] h-screen sticky top-4 overflow-hidden">
                     <Sidebar />
                 </div>
-                <div className="px-10 overflow-y-auto">
+                <div className="w-full px-10 overflow-y-auto">
                     <Outlet />
                 </div>
             </div>

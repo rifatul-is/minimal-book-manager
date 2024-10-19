@@ -3,7 +3,9 @@ const COLOR_PALATTE = {
         default: '#003060'
     },
     secondary: {
-        default: '#E55B14'
+        default: '#E55B14',
+        dark: '#df4f07',
+        light: '#E56C2E'
     },
     background: {
         default: '#E9DCCB'
