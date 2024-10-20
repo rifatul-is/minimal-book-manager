@@ -14,16 +14,14 @@ const Sidebar = () => {
         selectedGenre,
         setSelectedGenre,
         selectedLanguage,
-        setSelectedLanguage,
-        customGenreSearch,
-        setCustomGenreSearch
+        setSelectedLanguage
     } = useLayoutContext();
 
     const resetFilters = () => {
         setSelectedGenre('');
         setSelectedLanguage([]);
     };
-    const handelFilterOnClick = (value, setValue, category) => {
+    const handleLanguageFilter = (value, setValue, category) => {
         if (value?.includes(category)) {
             setValue((prevItems) =>
                 prevItems.filter((item) => item !== category)
@@ -74,16 +72,29 @@ const Sidebar = () => {
                                 isChecked={selectedGenre?.includes(category)}
                                 onCLick={(event) => {
                                     event.stopPropagation();
-                                    setSelectedGenre(category);
+                                    if (selectedGenre === category) {
+                                        setSelectedGenre('');
+                                    } else {
+                                        setSelectedGenre(category);
+                                    }
                                 }}
                             />
                         ))}
                         <div className="pt-4">
                             <SearchField
+                                value={
+                                    CATEGORIES.includes(selectedGenre)
+                                        ? ''
+                                        : selectedGenre
+                                }
                                 width={100}
                                 height="h-8"
                                 placeholder="Search Other..."
                                 isMiniField={true}
+                                onChange={(event) => {
+                                    event.stopPropagation();
+                                    setSelectedGenre(event.target.value);
+                                }}
                             />
                         </div>
                     </div>
@@ -113,7 +124,7 @@ const Sidebar = () => {
                                 )}
                                 onCLick={(event) => {
                                     event.stopPropagation();
-                                    handelFilterOnClick(
+                                    handleLanguageFilter(
                                         selectedLanguage,
                                         setSelectedLanguage,
                                         language.value

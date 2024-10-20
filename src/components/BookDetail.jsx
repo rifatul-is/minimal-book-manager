@@ -8,12 +8,7 @@ import COLOR_PALATTE from '../constants/color_palette.js';
 import languageIcon from '../assets/svgs/language.svg';
 import downloadIcon from '../assets/svgs/download.svg';
 
-const BookDetails = ({
-    book,
-    setBook,
-    wishListedBooks,
-    setWishListedBooks
-}) => {
+const BookDetails = ({ book, setBook, wishListBooks, setWishListBooks }) => {
     return (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
             <div className="bg-white w-full max-w-4xl p-8 rounded-lg relative z-10">
@@ -44,7 +39,7 @@ const BookDetails = ({
                                 }}
                             >
                                 <HeartIcon
-                                    fill={() =>
+                                    fill={
                                         !!findBookById(book?.id, wishListBooks)
                                     }
                                     color={COLOR_PALATTE.secondary.default}
@@ -115,7 +110,6 @@ const BookDetails = ({
                             <p className="flex items-center gap-1 text-sm font-medium">
                                 <img src={languageIcon} className="w-4 h-4" />
                                 {book.languages.map((language, index) => {
-                                    console.log(language);
                                     return language?.toUpperCase();
                                 })}
                             </p>

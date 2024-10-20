@@ -23,6 +23,9 @@ const SearchField = ({
                 type="text"
                 placeholder={placeholder}
                 onKeyUp={onEnterPress}
+                onClick={(event) => {
+                    event.stopPropagation();
+                }}
             />
             <div
                 className={`bg-primary-default w-[50px] flex items-center justify-center hover:bg-secondary-default`}

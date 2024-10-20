@@ -8,7 +8,6 @@ import { LayoutContext } from '../context/layout_context.js';
 const Layout = () => {
     const [selectedGenre, setSelectedGenre] = useState('');
     const [selectedLanguage, setSelectedLanguage] = useState([]);
-    const [customGenreSearch, setCustomGenreSearch] = useState('');
     const [bookSearch, setBookSearch] = useState('');
 
     const location = useLocation();
@@ -18,8 +17,6 @@ const Layout = () => {
         setSelectedGenre,
         selectedLanguage,
         setSelectedLanguage,
-        customGenreSearch,
-        setCustomGenreSearch,
         bookSearch,
         setBookSearch
     };

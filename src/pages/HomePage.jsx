@@ -12,27 +12,14 @@ import {
 } from '../assets/utils/global_functions.js';
 import BookDetail from '../components/BookDetail.jsx';
 import { useLayoutContext } from '../context/layout_context.js';
-import { useLocation } from 'react-router-dom';
 import { fetchBooks } from '../api/books.js';
 
 const HomePage = () => {
-    // const [fetchOptions, setFetchOptions] = useState({
-    //     signal: null,
-    //     requestMethod: 'GET',
-    //     url: base_url,
-    //     resetFetchData: false
-    // });
     const [isLoading, setIsLoading] = useState(false);
     const [bookDetailsData, setBookDetailsData] = useState(null);
     // const [resetFetchData, setResetFetchData] = useState(false);
     const [bookData, setBookData] = useState(null);
     const [error, setError] = useState(null);
-    // const { error, data } = useFetch(
-    //     fetchOptions.signal,
-    //     fetchOptions.requestMethod,
-    //     fetchOptions.url,
-    //     resetFetchData
-    // );
     const controllerRef = useRef(null);
     const [wishListBooks, setWishListBooks] = useState(
         JSON.parse(localStorage.getItem('wishlist_books')) || []
@@ -42,21 +29,10 @@ const HomePage = () => {
         setSelectedGenre,
         selectedLanguage,
         setSelectedLanguage,
-        customGenreSearch,
-        setCustomGenreSearch,
         bookSearch,
         setBookSearch
     } = useLayoutContext();
 
-    // const fetchSearchedBooks = async (signal) => {
-    //     await setFetchOptions({
-    //         signal: signal,
-    //         requestMethod: 'GET',
-    //         url: `${base_url}?search=${bookSearch}`,
-    //         resetFetchData: false
-    //     });
-    // };
-    //
     const getBooks = async (signal, url) => {
         try {
             setIsLoading(true);
@@ -65,8 +41,7 @@ const HomePage = () => {
                 url,
                 bookSearch,
                 selectedGenre,
-                selectedLanguage,
-                customGenreSearch
+                selectedLanguage
             );
             console.log(result);
             setBookData(result.data);
@@ -78,37 +53,25 @@ const HomePage = () => {
     };
 
     useEffect(() => {
-        console.log('first use effect');
-        getBooks(null, null).then((r) => {});
-    }, []);
-
-    useEffect(() => {
         localStorage.setItem('wishlist_books', JSON.stringify(wishListBooks));
     }, [wishListBooks]);
 
     useEffect(() => {
-        console.log('search value change use effect');
         if (controllerRef.current) {
             controllerRef.current.abort();
-        }
-
-        if (bookSearch === '') {
-            getBooks(null).then((r) => {});
         }
 
         controllerRef.current = new AbortController();
         const signal = controllerRef.current.signal;
 
-        setBookData(null);
-        console.log(
-            'search value change use effect book data set to null' + bookSearch
-        );
         getBooks(signal).then((r) => {});
-    }, [bookSearch, selectedGenre]);
+    }, [bookSearch, selectedGenre, selectedLanguage]);
 
     return (
         <div>
-            {!isLoading && bookData === null && (
+            {error && alert(error)}
+
+            {isLoading || bookData === null ? (
                 <div className="w-full h-full flex flex-col gap-8 items-center justify-center">
                     <CircularSpinner />
                     <p className="text-center text-sm text-primary-default">
@@ -116,14 +79,9 @@ const HomePage = () => {
                         Blame the API, not me! I promise I’m fast!
                     </p>
                 </div>
-            )}
-
-            {error && alert(error)}
-
-            <div className="grid grid-cols-3 gap-8">
-                {!isLoading &&
-                    bookData !== null &&
-                    bookData?.results.map((book, index) => (
+            ) : (
+                <div className="grid grid-cols-3 gap-8">
+                    {bookData?.results.map((book, index) => (
                         <>
                             <BookCover
                                 key={index}
@@ -144,14 +102,15 @@ const HomePage = () => {
                             />
                         </>
                     ))}
-            </div>
+                </div>
+            )}
 
             {bookDetailsData && (
                 <BookDetail
                     book={bookDetailsData}
                     setBook={setBookDetailsData}
-                    wishListedBooks={wishListBooks}
-                    setWishListedBooks={setWishListBooks}
+                    wishListBooks={wishListBooks}
+                    setWishListBooks={setWishListBooks}
                 />
             )}
 
@@ -165,11 +124,6 @@ const HomePage = () => {
                         disabled={bookData?.previous ? false : true}
                         onClick={() => {
                             getBooks(null, bookData?.next).then((r) => {});
-                            // setFetchOptions({
-                            //     signal: null,
-                            //     requestMethod: 'GET',
-                            //     url: bookData?.previous
-                            // });
                         }}
                     />
                     <Button
@@ -180,11 +134,6 @@ const HomePage = () => {
                         disabled={bookData?.next ? false : true}
                         onClick={() => {
                             getBooks(null, bookData?.next).then((r) => {});
-                            // setFetchOptions({
-                            //     signal: null,
-                            //     requestMethod: 'GET',
-                            //     url: bookData?.next
-                            // });
                         }}
                     />
                 </div>

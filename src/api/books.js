@@ -6,8 +6,7 @@ export const fetchBooks = async (
     customUrl,
     searchValue,
     selectedGenre,
-    selectedLanguage,
-    customGenreSearch
+    selectedLanguage
 ) => {
     let url = customUrl || base_url;
     let data = null;
@@ -28,43 +27,24 @@ export const fetchBooks = async (
 
     if (searchValue) {
         url += `?search=${searchValue}`;
-    } else if (customGenreSearch) {
-        url += `?topic=${customGenreSearch}`;
+        if (selectedGenre) url += `&topic=${selectedGenre.toLowerCase()}`;
+        if (selectedLanguage.length > 0) {
+            const languagesParam = selectedLanguage.join(',');
+            url += `&languages=${encodeURIComponent(languagesParam)}`;
+        }
     } else if (selectedGenre) {
         url += `?topic=${selectedGenre}`;
+        if (searchValue) url += `&search=${searchValue}`;
+        if (selectedLanguage.length > 0) {
+            const languagesParam = selectedLanguage.join(',');
+            url += `&languages=${encodeURIComponent(languagesParam)}`;
+        }
     } else if (selectedLanguage.length > 0) {
         const languagesParam = selectedLanguage.join(',');
-        url += `?languages=${encodeURIComponent(languagesParam)}`;
+        url += `?languages=${languagesParam}`;
+        if (searchValue) url += `&search=${searchValue}`;
+        if (selectedGenre) url += `&topic=${selectedGenre.toLowerCase()}`;
     }
-    //
-    // if (searchValue) {
-    //     if (
-    //         selectedGenre ||
-    //         selectedLanguage.length !== 0 ||
-    //         customGenreSearch
-    //     ) {
-    //         url += `&search=${searchValue}`;
-    //     } else {
-    //         url += `?search=${searchValue}`;
-    //     }
-    // }
-    //
-    // if (customGenreSearch || selectedGenre) {
-    //     if (searchValue || selectedLanguage.length !== 0) {
-    //         url += `&topic=${customGenreSearch || selectedGenre}`;
-    //     } else {
-    //         url += `?topic=${customGenreSearch || selectedGenre}`;
-    //     }
-    // }
-    //
-    // if (selectedLanguage && selectedLanguage.length > 0) {
-    //     const languagesParam = selectedLanguage.join(',');
-    //     if (selectedGenre || searchValue || customGenreSearch) {
-    //         url += `&languages=${encodeURIComponent(languagesParam)}`;
-    //     } else {
-    //         url += `?languages=${encodeURIComponent(languagesParam)}`;
-    //     }
-    // }
 
     try {
         const response = await fetch(url, options);
