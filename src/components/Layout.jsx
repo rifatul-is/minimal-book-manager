@@ -23,25 +23,24 @@ const Layout = () => {
 
     return (
         <LayoutContext.Provider value={contextValue}>
-            <div>
+            <div className="min-h-screen flex flex-col justify-between">
                 <div className="w-full lg:w-[1200px] mx-auto">
                     <Navbar />
                 </div>
 
-                {location.pathname.startsWith('/book-details') ? (
-                    <div className="pt-6 w-full lg:w-[1200px] mx-auto">
+                <div className="flex flex-col lg:flex-row lg:space-x-6 p-6 w-full lg:w-[1200px] mx-auto">
+                    <div className="hidden lg:block w-full lg:w-[300px] lg:sticky lg:top-4 lg:h-screen overflow-hidden">
+                        <Sidebar />
+                    </div>
+
+                    <div className="w-full px-4 lg:px-10 overflow-y-auto">
                         <Outlet />
                     </div>
-                ) : (
-                    <div className="flex pt-6 w-full lg:w-[1200px] mx-auto">
-                        <div className="w-[300px] h-screen sticky top-4 overflow-hidden">
-                            <Sidebar />
-                        </div>
-                        <div className="w-full px-10 overflow-y-auto">
-                            <Outlet />
-                        </div>
-                    </div>
-                )}
+                </div>
+
+                <div className="lg:hidden m-6">
+                    <Sidebar />
+                </div>
 
                 <Footer />
             </div>

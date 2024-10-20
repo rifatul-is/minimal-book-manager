@@ -2,8 +2,8 @@ import React from 'react';
 
 const Footer = () => {
     return (
-        <div className="w-full h-64 bg-primary-default flex justify-center items-center gap-10 text-background-default tracking-widest">
-            <div className="grid grid-cols-4 gap-8">
+        <div className="w-full h-fit p-10 lg:p-0 lg:h-64 bg-primary-default lg:flex lg:justify-center lg:items-center gap-10 text-background-default tracking-widest">
+            <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
                 <div>
                     <h3 className="text-xl font-semibold font-roboto-slab mb-4">
                         Let Us Help You

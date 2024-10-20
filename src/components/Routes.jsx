@@ -9,7 +9,6 @@ import WishlistPage from '../pages/WishlistPage.jsx';
 import homePage from '../pages/HomePage.jsx';
 import HomePage from '../pages/HomePage.jsx';
 import Layout from './Layout.jsx';
-import BookDetailsPage from '../pages/BookDetailsPage.jsx';
 
 const routes = createBrowserRouter(
     createRoutesFromElements(
@@ -17,7 +16,6 @@ const routes = createBrowserRouter(
             <Route element={<Layout />}>
                 <Route index element={<HomePage />} />
                 <Route path="/wishlist" element={<WishlistPage />} />
-                <Route path="/book-details" element={<BookDetailsPage />} />
             </Route>
         </>
     )

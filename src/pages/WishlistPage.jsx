@@ -28,7 +28,7 @@ const WishlistPage = () => {
                     Try Pressing the Heart Icon in the homepage on the books.
                 </div>
             )}
-            <div className="grid grid-cols-3 gap-8">
+            <div className="grid sm:grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
                 {wishListBooks?.map((book, index) => (
                     <BookCover
                         key={index}

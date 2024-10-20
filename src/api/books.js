@@ -1,4 +1,3 @@
-import useFetch from '../hooks/useFetch.js';
 import { base_url } from './api_urls.js';
 
 export const fetchBooks = async (

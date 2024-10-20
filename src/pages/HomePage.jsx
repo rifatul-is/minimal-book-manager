@@ -1,9 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import HeartIcon from '../components/icons/HeartIcon.jsx';
-import COLOR_PALATTE from '../constants/color_palette.js';
 import BookCover from '../components/BookCover.jsx';
-import useFetch from '../hooks/useFetch.js';
-import { base_url } from '../api/api_urls.js';
 import CircularSpinner from '../components/CircularSpinner.jsx';
 import Button from '../components/Button.jsx';
 import {
@@ -17,7 +13,6 @@ import { fetchBooks } from '../api/books.js';
 const HomePage = () => {
     const [isLoading, setIsLoading] = useState(false);
     const [bookDetailsData, setBookDetailsData] = useState(null);
-    // const [resetFetchData, setResetFetchData] = useState(false);
     const [bookData, setBookData] = useState(null);
     const [error, setError] = useState(null);
     const controllerRef = useRef(null);
@@ -68,7 +63,7 @@ const HomePage = () => {
     }, [bookSearch, selectedGenre, selectedLanguage]);
 
     return (
-        <div>
+        <div className={'w-full'}>
             {error && alert(error)}
 
             {isLoading || bookData === null ? (
@@ -80,7 +75,7 @@ const HomePage = () => {
                     </p>
                 </div>
             ) : (
-                <div className="grid grid-cols-3 gap-8">
+                <div className="grid grid-cols-1 gap-8">
                     {bookData?.results.map((book, index) => (
                         <>
                             <BookCover

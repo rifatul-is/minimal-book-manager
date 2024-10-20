@@ -5,7 +5,7 @@ import routes from './components/Routes.jsx';
 
 function App() {
     return (
-        <div className="mx-auto px-4 w-full text-black bg-white font-roboto text-base">
+        <div className="mx-auto w-full text-black bg-white font-roboto text-base">
             <RouterProvider router={routes} />
         </div>
     );
