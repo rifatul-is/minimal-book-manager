@@ -26,13 +26,13 @@ const BookDetails = ({
 
                 <div className="flex gap-8 p-6">
                     <img
-                        src={book.formats['image/jpeg']}
+                        src={book?.formats['image/jpeg']}
                         className="w-[550px] h-fit rounded overflow-hidden"
                     />
                     <div className="flex flex-col gap-2">
                         <div className="flex justify-between items-start">
                             <h2 className="text-2xl font-bold font-roboto-slab">
-                                {book.title}
+                                {book?.title}
                             </h2>
                             <button
                                 onClick={() => {
@@ -45,7 +45,7 @@ const BookDetails = ({
                             >
                                 <HeartIcon
                                     fill={() =>
-                                        !!findBookById(book.id, wishListBooks)
+                                        !!findBookById(book?.id, wishListBooks)
                                     }
                                     color={COLOR_PALATTE.secondary.default}
                                 />

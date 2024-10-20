@@ -5,13 +5,24 @@ import Checkbox from './Checkbox.jsx';
 import CATEGORIES from '../constants/categories.js';
 import SearchField from './SearchField.jsx';
 import BOOK_LANGUAGE from '../constants/book_language.js';
+import { useLayoutContext } from '../context/layout_context.js';
 
 const Sidebar = () => {
-    const [selectedCategory, setSelectedCategory] = useState([]);
-    const [selectedLanguage, setSelectedLanguage] = useState([]);
-    const [isFilterExpanded, setIsFilterExpanded] = useState(true);
     const [expandedFilter, setExpandedFilter] = useState('');
 
+    const {
+        selectedGenre,
+        setSelectedGenre,
+        selectedLanguage,
+        setSelectedLanguage,
+        customGenreSearch,
+        setCustomGenreSearch
+    } = useLayoutContext();
+
+    const resetFilters = () => {
+        setSelectedGenre('');
+        setSelectedLanguage([]);
+    };
     const handelFilterOnClick = (value, setValue, category) => {
         if (value?.includes(category)) {
             setValue((prevItems) =>
@@ -22,7 +33,7 @@ const Sidebar = () => {
         }
     };
     const handelFilterExpansion = (filterName) => {
-        console.log(expandedFilter, filterName);
+        console.log(filterName);
         if (expandedFilter?.includes(filterName)) {
             setExpandedFilter('');
         } else {
@@ -34,27 +45,25 @@ const Sidebar = () => {
             <div
                 role="button"
                 className="p-4 flex justify-between items-start bg-primary-default text-white rounded-xl"
-                onClick={() => setIsFilterExpanded(!isFilterExpanded)}
+                onClick={resetFilters}
             >
-                <h3 className="font-medium">Filter</h3>
+                <h3 className="font-medium">Clear Filters</h3>
                 <img src={settingsIcon} className="w-6 h-6" />
             </div>
 
             {/*Category Filter Div*/}
-            <div
-                className={`${isFilterExpanded ? 'opacity-100' : 'opacity-0'} transition-all space-y-4`}
-            >
+            <div className={`transition-all space-y-4`}>
                 <div
                     role="button"
-                    className={`${expandedFilter === 'category' ? 'max-h-[800px]' : 'max-h-[52px]'} bg-background-default p-4 rounded-xl space-y-3 transition-all overflow-hidden`}
-                    onClick={() => handelFilterExpansion('category')}
+                    className={`${expandedFilter === 'genre' ? 'max-h-[800px]' : 'max-h-[52px]'} bg-background-default p-4 rounded-xl space-y-3 transition-all overflow-hidden`}
+                    onClick={() => handelFilterExpansion('genre')}
                 >
                     <div className="flex items-center justify-between font-semibold text-primary-default">
-                        <h3>By Category</h3>
+                        <h3>Quick Genres</h3>
                         <img
                             role="button"
                             src={arrowIcon}
-                            className={`w-5 h-5 transition-all ${expandedFilter === 'category' && 'rotate-180'}`}
+                            className={`w-5 h-5 transition-all ${expandedFilter === 'genre' && 'rotate-180'}`}
                         />
                     </div>
                     <div className="space-y-2">
@@ -62,21 +71,18 @@ const Sidebar = () => {
                             <Checkbox
                                 key={index}
                                 label={category}
-                                isChecked={selectedCategory?.includes(category)}
-                                onCLick={() =>
-                                    handelFilterOnClick(
-                                        selectedLanguage,
-                                        setSelectedLanguage,
-                                        category
-                                    )
-                                }
+                                isChecked={selectedGenre?.includes(category)}
+                                onCLick={(event) => {
+                                    event.stopPropagation();
+                                    setSelectedGenre(category);
+                                }}
                             />
                         ))}
                         <div className="pt-4">
                             <SearchField
                                 width={100}
                                 height="h-8"
-                                placeholder="Search Category..."
+                                placeholder="Search Other..."
                                 isMiniField={true}
                             />
                         </div>
@@ -90,7 +96,7 @@ const Sidebar = () => {
                     onClick={() => handelFilterExpansion('language')}
                 >
                     <div className="flex items-center justify-between font-semibold text-primary-default">
-                        <h3>By Language</h3>
+                        <h3>Languages</h3>
                         <img
                             role="button"
                             src={arrowIcon}
@@ -105,13 +111,14 @@ const Sidebar = () => {
                                 isChecked={selectedLanguage?.includes(
                                     language.value
                                 )}
-                                onCLick={() =>
+                                onCLick={(event) => {
+                                    event.stopPropagation();
                                     handelFilterOnClick(
                                         selectedLanguage,
                                         setSelectedLanguage,
                                         language.value
-                                    )
-                                }
+                                    );
+                                }}
                             />
                         ))}
                     </div>
