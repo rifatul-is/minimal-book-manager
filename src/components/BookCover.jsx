@@ -4,56 +4,15 @@ import starIcon from '../assets/svgs/star.svg';
 import downloadIcon from '../assets/svgs/download.svg';
 import COLOR_PALATTE from '../constants/color_palette.js';
 import Button from './Button.jsx';
+import { useNavigate } from 'react-router-dom';
 
-const BookCover = ({ book, isWishListed, onWishListClick }) => {
-    // const [wishlistedBooks, setWishlistedBooks] = useState(['bitch 111']);
-    //
-    // const findBookById = (id) => {
-    //     console.log('finding by id');
-    //     console.log(id);
-    //     if (wishlistedBooks) {
-    //         return wishlistedBooks.find((item) => item.id === id);
-    //     } else {
-    //         return false;
-    //     }
-    // };
-    //
-    // const wishlistBook = () => {
-    //     console.log(wishlistedBooks);
-    //     console.log(JSON.parse(localStorage.getItem('wishlisted_book')));
-    //     if (findBookById(book.id)) {
-    //         console.log('id found');
-    //         const newWishlistedBooks = wishlistedBooks?.filter(
-    //             (item) => item.id !== book.id
-    //         );
-    //         setWishlistedBooks(newWishlistedBooks);
-    //         console.log(newWishlistedBooks);
-    //     } else {
-    //         console.log('id not found');
-    //         if (wishlistedBooks) {
-    //             console.log('wishlisted book found');
-    //             const newWishlistedBooks = [book, ...wishlistedBooks];
-    //             setWishlistedBooks(newWishlistedBooks);
-    //             console.log(newWishlistedBooks);
-    //         } else {
-    //             console.log('wishlisted book not found');
-    //             setWishlistedBooks([book]);
-    //             console.log(book);
-    //         }
-    //     }
-    // };
-    //
-    // useEffect(() => {
-    //     console.log('use effect of wishlist books');
-    //     console.log(JSON.stringify(wishlistedBooks));
-    //     localStorage.setItem('wishlist_books', JSON.stringify(wishlistedBooks));
-    // }, [wishlistedBooks]);
-    //
-    // useEffect(() => {
-    //     console.log('getting books');
-    //     const storedBooks = JSON.parse(localStorage.getItem('wishlist_books'));
-    //     setWishlistedBooks(storedBooks || []);
-    // }, []);
+const BookCover = ({
+    book,
+    isWishListed,
+    onWishListClick,
+    onReadMoreClick
+}) => {
+    const navigate = useNavigate();
 
     return (
         <div className="shadow rounded-lg w-64">
@@ -92,6 +51,7 @@ const BookCover = ({ book, isWishListed, onWishListClick }) => {
                         label="Read More..."
                         fontSize="text-xs"
                         fontWidth="font-semibold"
+                        onClick={onReadMoreClick}
                     />
                 </div>
             </div>

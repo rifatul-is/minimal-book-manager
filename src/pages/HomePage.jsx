@@ -6,31 +6,19 @@ import useFetch from '../hooks/useFetch.js';
 import { base_url } from '../api/api_urls.js';
 import CircularSpinner from '../components/CircularSpinner.jsx';
 import Button from '../components/Button.jsx';
-import { findBookById } from '../assets/utils/global_functions.js';
+import {
+    findBookById,
+    wishlistBook
+} from '../assets/utils/global_functions.js';
+import BookDetail from '../components/BookDetail.jsx';
 
 const HomePage = () => {
     const [url, setUrl] = useState(base_url);
+    const [bookDetailsData, setBookDetailsData] = useState(null);
+    const { isLoading, error, data } = useFetch('GET', url);
     const [wishListBooks, setWishListBooks] = useState(
         JSON.parse(localStorage.getItem('wishlist_books')) || []
     );
-
-    const { isLoading, error, data } = useFetch('GET', url);
-
-    const wishlistBook = (book) => {
-        if (findBookById(book.id, wishListBooks)) {
-            const newWishlistedBookIds = wishListBooks?.filter(
-                (item) => item.id !== book.id
-            );
-            setWishListBooks(newWishlistedBookIds);
-        } else {
-            if (wishListBooks) {
-                const newWishlistedBookIds = [book, ...wishListBooks];
-                setWishListBooks(newWishlistedBookIds);
-            } else {
-                setWishListBooks([book]);
-            }
-        }
-    };
 
     useEffect(() => {
         localStorage.setItem('wishlist_books', JSON.stringify(wishListBooks));
@@ -53,14 +41,38 @@ const HomePage = () => {
             <div className="grid grid-cols-3 gap-8">
                 {!isLoading &&
                     data?.results.map((book, index) => (
-                        <BookCover
-                            key={index}
-                            book={book}
-                            isWishListed={findBookById(book.id) ? true : false}
-                            onWishListClick={() => wishlistBook(book)}
-                        />
+                        <>
+                            <BookCover
+                                key={index}
+                                book={book}
+                                isWishListed={
+                                    findBookById(book.id, wishListBooks)
+                                        ? true
+                                        : false
+                                }
+                                onWishListClick={() => {
+                                    wishlistBook(
+                                        book,
+                                        wishListBooks,
+                                        setWishListBooks
+                                    );
+                                }}
+                                onReadMoreClick={() => {
+                                    setBookDetailsData(book);
+                                }}
+                            />
+                        </>
                     ))}
             </div>
+
+            {bookDetailsData && (
+                <BookDetail
+                    book={bookDetailsData}
+                    setBook={setBookDetailsData}
+                    wishListedBooks={wishListBooks}
+                    setWishListedBooks={setWishListBooks}
+                />
+            )}
 
             {!isLoading && (
                 <div className="py-10 flex gap-4 justify-end">
